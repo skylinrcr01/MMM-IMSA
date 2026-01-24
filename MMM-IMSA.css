@@ -1,0 +1,79 @@
+.imsa-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.imsa-title {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.imsa-logo {
+  display: block;
+  height: auto;
+  background: transparent;
+}
+
+.imsa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.imsa-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.imsa-name {
+  flex: 1;
+  font-size: 14px;
+}
+
+.imsa-date {
+  font-size: 13px;
+  opacity: 0.75;
+  white-space: nowrap;
+}
+
+.imsa-past {
+  opacity: 0.45;
+}
+
+.imsa-next {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 10px;
+  margin: 0 -10px;
+  border-radius: 6px;
+}
+
+.imsa-details {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+.imsa-details-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+  margin-bottom: 6px;
+}
+
+.imsa-detail-line {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.imsa-detail-label {
+  opacity: 0.75;
+}
