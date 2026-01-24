@@ -4,9 +4,13 @@ Module.register("MMM-IMSA", {
     logoUrl: "",
     logoAlt: "IMSA",
     logoWidth: 90,
-    showPast: true,
+    showPast: false,
     dateFormat: "MMM D",
     highlightNext: true,
+    maxRaces: 3,
+    useEventInfo: true,
+    eventInfoYear: null,
+    eventInfoUrl: "",
     races: [
       {
         name: "Rolex 24 At Daytona",
@@ -104,16 +108,14 @@ Module.register("MMM-IMSA", {
   },
 
   start: function () {
-    this.races = (this.config.races || []).map(function (race) {
-      return {
-        name: race.name,
-        start: moment(race.start, "YYYY-MM-DD"),
-        end: moment(race.end, "YYYY-MM-DD"),
-        track: race.track,
-        location: race.location,
-        duration: race.duration
-      };
-    });
+    this.races = this.normalizeRaces(this.config.races || []);
+
+    if (this.config.useEventInfo) {
+      this.sendSocketNotification("IMSA_REQUEST", {
+        year: this.getSeasonYear(),
+        url: this.config.eventInfoUrl
+      });
+    }
   },
 
   getDom: function () {
@@ -156,7 +158,9 @@ Module.register("MMM-IMSA", {
       details.appendChild(this.detailLine("Race", nextRace.name));
       details.appendChild(this.detailLine("Location", nextRace.location));
       details.appendChild(this.detailLine("Dates", this.formatRange(nextRace)));
-      details.appendChild(this.detailLine("Duration", nextRace.duration));
+      if (nextRace.duration) {
+        details.appendChild(this.detailLine("Duration", nextRace.duration));
+      }
 
       wrapper.appendChild(details);
     }
@@ -164,11 +168,19 @@ Module.register("MMM-IMSA", {
     var list = document.createElement("div");
     list.className = "imsa-list";
 
-    for (var j = 0; j < this.races.length; j += 1) {
+    var maxRaces = this.config.maxRaces;
+    var shownCount = 0;
+    var startIndex = this.config.showPast ? 0 : Math.max(nextIndex, 0);
+
+    for (var j = startIndex; j < this.races.length; j += 1) {
       var race = this.races[j];
       var isPast = race.end.isBefore(now, "day");
       if (!this.config.showPast && isPast) {
         continue;
+      }
+
+      if (maxRaces && shownCount >= maxRaces) {
+        break;
       }
 
       var row = document.createElement("div");
@@ -191,11 +203,42 @@ Module.register("MMM-IMSA", {
       row.appendChild(name);
       row.appendChild(date);
       list.appendChild(row);
+      shownCount += 1;
     }
 
     wrapper.appendChild(list);
 
     return wrapper;
+  },
+
+  socketNotificationReceived: function (notification, payload) {
+    if (notification === "IMSA_EVENTS" && payload && payload.races) {
+      if (payload.races.length > 0) {
+        this.races = this.normalizeRaces(payload.races);
+
+        if (this.config.header === this.defaults.header && payload.year) {
+          this.config.header = "IMSA " + payload.year;
+        }
+      }
+      this.updateDom();
+    }
+  },
+
+  normalizeRaces: function (races) {
+    return (races || []).map(function (race) {
+      return {
+        name: race.name,
+        start: moment(race.start, "YYYY-MM-DD"),
+        end: moment(race.end, "YYYY-MM-DD"),
+        track: race.track,
+        location: race.location,
+        duration: race.duration
+      };
+    });
+  },
+
+  getSeasonYear: function () {
+    return this.config.eventInfoYear || moment().year();
   },
 
   formatRange: function (race) {
