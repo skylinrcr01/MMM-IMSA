@@ -61,6 +61,11 @@
   border-radius: 8px;
 }
 
+.imsa-details-current {
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.18);
+}
+
 .imsa-details-title {
   font-size: 13px;
   text-transform: uppercase;

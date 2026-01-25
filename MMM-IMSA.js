@@ -149,10 +149,18 @@ Module.register("MMM-IMSA", {
       var nextRace = this.races[nextIndex];
       var details = document.createElement("div");
       details.className = "imsa-details";
+      var isCurrent =
+        nextRace.start.isSameOrBefore(now, "day") &&
+        nextRace.end.isSameOrAfter(now, "day");
+      if (isCurrent) {
+        details.classList.add("imsa-details-current");
+      }
 
       var detailsTitle = document.createElement("div");
       detailsTitle.className = "imsa-details-title";
-      detailsTitle.innerText = "Next race details";
+      detailsTitle.innerText = isCurrent
+        ? "Current race details"
+        : "Next race details";
       details.appendChild(detailsTitle);
 
       details.appendChild(this.detailLine("Race", nextRace.name));
