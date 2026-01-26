@@ -2,6 +2,9 @@
 
 IMSA WeatherTech SportsCar Championship race calendar module for MagicMirror.
 
+<img width="241" height="228" alt="Screenshot 2026-01-26 at 1 12 34 AM" src="https://github.com/user-attachments/assets/0b9a3199-e57f-43e2-b34d-aac8327d99d9" />
+
+
 ## Install
 
 Place the `MMM-IMSA` folder in your MagicMirror `modules` directory.
