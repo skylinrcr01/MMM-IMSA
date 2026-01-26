@@ -25,6 +25,7 @@ Place the `MMM-IMSA` folder in your MagicMirror `modules` directory.
 - `logoUrl` (string): Path or URL for an IMSA logo. When set, it replaces the text header.
 - `logoAlt` (string): Alt text for the logo. Default `"IMSA"`.
 - `logoWidth` (number): Logo width in pixels. Default `90`.
+- `logoGrayscale` (bool): Render the logo in grayscale. Default `true`. The logo switches to full color during a current race.
 - `showPast` (bool): Show races that already ended. Default `false`.
 - `dateFormat` (string): Moment.js format for dates. Default `"MMM D"`.
 - `highlightNext` (bool): Highlight the next race in the list. Default `true`.

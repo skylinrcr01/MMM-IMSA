@@ -19,6 +19,14 @@
   background: transparent;
 }
 
+.imsa-logo-grayscale {
+  filter: grayscale(100%);
+}
+
+.imsa-logo-color {
+  filter: none;
+}
+
 .imsa-list {
   display: flex;
   flex-direction: column;

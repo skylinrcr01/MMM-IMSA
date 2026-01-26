@@ -4,6 +4,7 @@ Module.register("MMM-IMSA", {
     logoUrl: "",
     logoAlt: "IMSA",
     logoWidth: 90,
+    logoGrayscale: true,
     showPast: false,
     dateFormat: "MMM D",
     highlightNext: true,
@@ -122,20 +123,6 @@ Module.register("MMM-IMSA", {
     var wrapper = document.createElement("div");
     wrapper.className = "imsa-wrapper";
 
-    var title = document.createElement("div");
-    title.className = "imsa-title";
-    if (this.config.logoUrl) {
-      var logo = document.createElement("img");
-      logo.className = "imsa-logo";
-      logo.src = this.config.logoUrl;
-      logo.alt = this.config.logoAlt;
-      logo.style.width = this.config.logoWidth + "px";
-      title.appendChild(logo);
-    } else {
-      title.innerText = this.config.header;
-    }
-    wrapper.appendChild(title);
-
     var now = moment().startOf("day");
     var nextIndex = -1;
     for (var i = 0; i < this.races.length; i += 1) {
@@ -145,6 +132,24 @@ Module.register("MMM-IMSA", {
       }
     }
 
+    var title = document.createElement("div");
+    title.className = "imsa-title";
+    var logoEl = null;
+    if (this.config.logoUrl) {
+      logoEl = document.createElement("img");
+      logoEl.className = "imsa-logo";
+      if (this.config.logoGrayscale) {
+        logoEl.classList.add("imsa-logo-grayscale");
+      }
+      logoEl.src = this.config.logoUrl;
+      logoEl.alt = this.config.logoAlt;
+      logoEl.style.width = this.config.logoWidth + "px";
+      title.appendChild(logoEl);
+    } else {
+      title.innerText = this.config.header;
+    }
+    wrapper.appendChild(title);
+
     if (nextIndex >= 0) {
       var nextRace = this.races[nextIndex];
       var details = document.createElement("div");
@@ -152,6 +157,9 @@ Module.register("MMM-IMSA", {
       var isCurrent =
         nextRace.start.isSameOrBefore(now, "day") &&
         nextRace.end.isSameOrAfter(now, "day");
+      if (isCurrent && logoEl) {
+        logoEl.classList.add("imsa-logo-color");
+      }
       if (isCurrent) {
         details.classList.add("imsa-details-current");
       }
