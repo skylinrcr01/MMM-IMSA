@@ -43,3 +43,7 @@ Place the `MMM-IMSA` folder in your MagicMirror `modules` directory.
 
 By default, the module now fetches the event information page and parses the current season. If the fetch fails,
 the module falls back to the static `races` list. To opt out, set `useEventInfo: false`.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
